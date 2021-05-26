@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { Button, Container, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import styles from "./Login.module.css";
+import styles from "./ForgotPassword.module.css";
 
-function Login(props) {
+function ForgotPassword(props) {
   const [username, setUsername] = useState("");
   const [form, setForm] = useState({
     username: "",
+    email: "",
     password: "",
   });
 
-  const handleLogin = (event) => {
+  const handleForgotPassword = (event) => {
     event.preventDefault();
     localStorage.setItem("token", username);
-    props.history.push("/chat");
+    props.history.push("/register");
   };
 
   const changeText = (event) => {
@@ -27,9 +28,14 @@ function Login(props) {
       <Container>
         <Card className={`${styles.card_size} mt-5 mx-auto`}>
           <Card.Body>
-            <h3 className={`${styles.login_text} text-center mt-4`}>Login</h3>
-            <p className="mt-3">Hi, Welcome back</p>
-            <Form onSubmit={handleLogin} className="mt-4">
+            <Link to="/login" className={styles.back_button}>
+              <h5>{"<"}</h5>
+            </Link>
+            <h3 className={`${styles.login_text} text-center mt-4`}>
+              Forgot Password
+            </h3>
+            <p className="mt-3">You'll get message soon on your email!</p>
+            <Form onSubmit={handleForgotPassword} className="mt-4">
               <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -39,31 +45,14 @@ function Login(props) {
                   required
                 />
               </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-              </Form.Group>
-              <Link
-                to="/forgot-password"
-                className={`${styles.login_text} ${styles.forgot_password_text}`}
-              >
-                Forgot password?
-              </Link>
               <Button
                 variant="primary"
                 className={`${styles.login_button} mt-4`}
                 type="submit"
               >
-                Submit
+                Send
               </Button>
             </Form>
-            <p className="text-center mt-4">
-              Don't have an account? {"  "}
-              <Link to="/register" className={styles.sign_up_link_text}>
-                Sign Up
-              </Link>
-            </p>
           </Card.Body>
         </Card>
       </Container>
@@ -71,4 +60,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default ForgotPassword;

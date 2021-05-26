@@ -1,14 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../../components/Navbar";
 import styles from "./Chat.module.css";
 import { Container, Form, Row, Col } from "react-bootstrap";
 
 function Chat(props) {
+  const username = localStorage.getItem("token");
   // const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [room, setRoom] = useState({ new: "", old: "" });
+
+  useEffect(() => {
+    if (props.socket) {
+      props.socket.on("chatMessage", (dataMessage) => {
+        setMessages([...messages, dataMessage]);
+      });
+    }
+  }, [props.socket, messages]);
 
   const handleSelectRoom = (event) => {
     console.log(event.target.value);
+    // if (room.old) {
+    //   console.log("sudah pernah masuk ke room" + room.old);
+    //   console.log("dan akan masuk ke room" + event.target.value);
+    // } else {
+    //   console.log("belum masuk ke ruang manapun");
+    //   console.log("dan akan masuk ke room" + event.target.value);
+    // }
+    props.socket.emit("joinRoom", {
+      room: event.target.value,
+      oldRoom: room.old,
+      username,
+    });
+    setRoom({ ...room, new: event.target.value, old: event.target.value });
   };
 
   const handleChangeText = (event) => {
@@ -16,7 +40,18 @@ function Chat(props) {
   };
 
   const handleSendMessage = () => {
+    console.log("Username :", username);
+    console.log("Room :", room);
     console.log("Send Message :", message);
+
+    const setData = {
+      room: room.new,
+      username,
+      message,
+    };
+
+    props.socket.emit("roomMessage", setData);
+    setMessage("");
   };
 
   return (
@@ -50,27 +85,36 @@ function Chat(props) {
             </div>
           </div>
         </Col>
-        <Col sm={10}>
-          <div className={styles.chat}>
-            <div className={styles.chatWindow}>
-              <div className={styles.output}>
-                <p>
-                  <strong>Bagus : </strong>
-                  Hai !
-                </p>
+        {room.new ? (
+          <Col sm={10}>
+            <div className={styles.chat}>
+              <div className={styles.chatWindow}>
+                <div className={styles.output}>
+                  {messages.map((item, index) => (
+                    <p key={index}>
+                      <strong>{item.username} : </strong>
+                      {item.message}
+                    </p>
+                  ))}
+                </div>
               </div>
+              <input
+                className={styles.inputMessage}
+                onChange={(event) => handleChangeText(event)}
+                type="text"
+                value={message}
+                placeholder="Message"
+              />
+              <button onClick={handleSendMessage} className={styles.btnSubmit}>
+                Send
+              </button>
             </div>
-            <input
-              className={styles.inputMessage}
-              onChange={(event) => handleChangeText(event)}
-              type="text"
-              placeholder="Message"
-            />
-            <button onClick={handleSendMessage} className={styles.btnSubmit}>
-              Send
-            </button>
-          </div>
-        </Col>
+          </Col>
+        ) : (
+          <Col sm={10}>
+            <h1>Please Select Room !</h1>
+          </Col>
+        )}
       </Row>
     </Container>
   );
