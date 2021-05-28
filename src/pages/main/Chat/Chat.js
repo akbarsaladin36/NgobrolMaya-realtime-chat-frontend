@@ -1,123 +1,148 @@
-import { useState, useEffect } from "react";
-import Navbar from "../../../components/Navbar";
-import styles from "./Chat.module.css";
-import { Container, Form, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  FormControl,
+  Button,
+} from "react-bootstrap";
+import { VscListSelection } from "react-icons/vsc";
+import { VscAdd } from "react-icons/vsc";
+import { VscSearch } from "react-icons/vsc";
+// import { Link } from "react-router-dom";
+import styles from "./ChatStyle.module.css";
+import ProfilePicture from "../../../assets/img/default-profile-icon.jpg";
+import Message from "../../../components/message/Message";
 
-function Chat(props) {
-  const username = localStorage.getItem("token");
-  // const [username, setUsername] = useState("");
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [room, setRoom] = useState({ new: "", old: "" });
+function ChatHome() {
+  const [showMessage, setShowMessage] = useState(false);
 
-  useEffect(() => {
-    if (props.socket) {
-      props.socket.on("chatMessage", (dataMessage) => {
-        setMessages([...messages, dataMessage]);
-      });
-    }
-  }, [props.socket, messages]);
-
-  const handleSelectRoom = (event) => {
-    console.log(event.target.value);
-    // if (room.old) {
-    //   console.log("sudah pernah masuk ke room" + room.old);
-    //   console.log("dan akan masuk ke room" + event.target.value);
-    // } else {
-    //   console.log("belum masuk ke ruang manapun");
-    //   console.log("dan akan masuk ke room" + event.target.value);
-    // }
-    props.socket.emit("joinRoom", {
-      room: event.target.value,
-      oldRoom: room.old,
-      username,
-    });
-    setRoom({ ...room, new: event.target.value, old: event.target.value });
-  };
-
-  const handleChangeText = (event) => {
-    setMessage(event.target.value);
-  };
-
-  const handleSendMessage = () => {
-    console.log("Username :", username);
-    console.log("Room :", room);
-    console.log("Send Message :", message);
-
-    const setData = {
-      room: room.new,
-      username,
-      message,
-    };
-
-    props.socket.emit("roomMessage", setData);
-    setMessage("");
+  const showChatMessage = () => {
+    setShowMessage(true);
   };
 
   return (
-    <Container className="text-center">
-      <Navbar />
-      <h1>Chat App</h1>
-      <hr />
-      <Form>
-        <Form.Group>
-          <Form.Control
-            as="select"
-            size="lg"
-            onChange={(event) => handleSelectRoom(event)}
-          >
-            <option value="">Pilih Room ...</option>
-            <option value="html">HTML</option>
-            <option value="css">CSS</option>
-            <option value="js">JS</option>
-          </Form.Control>
-        </Form.Group>
-      </Form>
-      <hr />
-      <Row>
-        <Col sm={2}>
-          <div className={styles.chat}>
-            <div className={styles.chatWindow}>
-              <p className={styles.room}>User 1</p>
-              <hr />
-              <p className={styles.room}>User 2</p>
-              <hr />
-            </div>
-          </div>
-        </Col>
-        {room.new ? (
-          <Col sm={10}>
-            <div className={styles.chat}>
-              <div className={styles.chatWindow}>
-                <div className={styles.output}>
-                  {messages.map((item, index) => (
-                    <p key={index}>
-                      <strong>{item.username} : </strong>
-                      {item.message}
-                    </p>
-                  ))}
-                </div>
-              </div>
-              <input
-                className={styles.inputMessage}
-                onChange={(event) => handleChangeText(event)}
-                type="text"
-                value={message}
-                placeholder="Message"
-              />
-              <button onClick={handleSendMessage} className={styles.btnSubmit}>
-                Send
-              </button>
-            </div>
+    <div>
+      <Container>
+        <Row className="justify-content-center">
+          <Col sm={3} className="bg-light">
+            <Row className="mt-3">
+              <Col>
+                <h5>Telegram</h5>
+              </Col>
+              <Col>
+                <i className={styles.list_icon}>
+                  <VscListSelection />
+                </i>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col sm={10}>
+                <Form>
+                  <Form.Row>
+                    <InputGroup className="mb-2 mr-sm-2">
+                      <InputGroup.Prepend>
+                        <Button className={styles.search_icon}>
+                          <VscSearch />
+                        </Button>
+                      </InputGroup.Prepend>
+                      <FormControl type="search" placeholder="type a search" />
+                    </InputGroup>
+                  </Form.Row>
+                </Form>
+              </Col>
+              <Col>
+                <i className={styles.list_icon_2}>
+                  <VscAdd className="mt-2" />
+                </i>
+              </Col>
+            </Row>
+            <Row className="mt-5" onClick={showChatMessage}>
+              <Col sm={3}>
+                <img
+                  src={ProfilePicture}
+                  alt="profile user"
+                  className={styles.profile_picture_size}
+                />
+              </Col>
+              <Col sm={6}>
+                <p>Nama User</p>
+                <p className={styles.chat_text}>Isi chat</p>
+              </Col>
+              <Col sm={3}>
+                <p>15:40</p>
+                <div className={styles.notification_bubble_chat}>28</div>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col sm={3}>
+                <img
+                  src={ProfilePicture}
+                  alt="profile user"
+                  className={styles.profile_picture_size}
+                />
+              </Col>
+              <Col sm={6}>
+                <p>Nama User</p>
+                <p className={styles.chat_text}>Isi chat</p>
+              </Col>
+              <Col sm={3}>
+                <p>15:40</p>
+                <div className={styles.notification_bubble_chat}>28</div>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col sm={3}>
+                <img
+                  src={ProfilePicture}
+                  alt="profile user"
+                  className={styles.profile_picture_size}
+                />
+              </Col>
+              <Col sm={6}>
+                <p>Nama User</p>
+                <p className={styles.chat_text}>Isi chat</p>
+              </Col>
+              <Col sm={3}>
+                <p>15:40</p>
+                <div className={styles.notification_bubble_chat}>28</div>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col sm={3}>
+                <img
+                  src={ProfilePicture}
+                  alt="profile user"
+                  className={styles.profile_picture_size}
+                />
+              </Col>
+              <Col sm={6}>
+                <p>Nama User</p>
+                <p>Isi chat</p>
+              </Col>
+              <Col sm={3}>
+                <p>15:40</p>
+                <div className={styles.notification_bubble_chat}>28</div>
+              </Col>
+            </Row>
           </Col>
-        ) : (
-          <Col sm={10}>
-            <h1>Please Select Room !</h1>
+          <Col lg={8} className="bg-light">
+            {showMessage ? (
+              <Message />
+            ) : (
+              <p className={`${styles.blank_text_chat} text-muted`}>
+                Please select a chat to start messaging
+              </p>
+            )}
+
+            {/* <Message /> */}
           </Col>
-        )}
-      </Row>
-    </Container>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
-export default Chat;
+export default ChatHome;

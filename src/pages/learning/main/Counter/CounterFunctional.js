@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../../../components/Navbar";
 import { Button, Container } from "react-bootstrap";
 
 // WITHOUT REDUX ===========================================================================

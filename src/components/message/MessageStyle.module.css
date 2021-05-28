@@ -1,0 +1,9 @@
+.profile_picture_size {
+  width: 60px;
+  border-radius: 15%;
+}
+
+.user_text {
+  font-size: 12px;
+  margin-left: 20px !important;
+}

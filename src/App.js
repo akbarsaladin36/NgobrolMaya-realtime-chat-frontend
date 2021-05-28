@@ -9,12 +9,13 @@ import PublicRoute from "./helpers/PublicRoute";
 
 import Login from "./pages/auth/Login/Login";
 import Register from "./pages/auth/Register/Register";
-import Chat from "./pages/main/Chat/Chat";
-import Counter from "./pages/main/Counter/CounterFunctional";
+import Chat from "./pages/learning/main/Chat/Chat";
+import Counter from "./pages/learning/main/Counter/CounterFunctional";
 import styles from "./App.css";
 
 import io from "socket.io-client";
 import ForgotPassword from "./pages/auth/ForgotPassword/ForgotPassword";
+import ChatHome from "./pages/main/Chat/Chat";
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -48,8 +49,14 @@ function App() {
             exact
             component={ForgotPassword}
           />
-          <PrivateRoute socket={socket} path="/chat" exact component={Chat} />
-          <PrivateRoute path="/counter" exact component={Counter} />
+          <PrivateRoute
+            socket={socket}
+            path="/learning/chat"
+            exact
+            component={Chat}
+          />
+          <PrivateRoute path="/learning/counter" exact component={Counter} />
+          <PrivateRoute path="/home" exact component={ChatHome} />
         </Switch>
       </Router>
     </Provider>

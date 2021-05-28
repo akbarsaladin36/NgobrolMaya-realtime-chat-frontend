@@ -1,0 +1,41 @@
+.list_icon {
+  float: right !important;
+}
+
+.list_icon_2 {
+  height: 50px !important;
+}
+
+.search_icon {
+  border-color: lightgray;
+  background-color: white;
+  color: black;
+}
+
+.search_icon:hover {
+  background-color: white;
+  color: black;
+  border-color: lightgray;
+}
+
+.profile_picture_size {
+  width: 60px;
+  border-radius: 15%;
+}
+
+.chat_text {
+  color: #7e98df;
+}
+
+.notification_bubble_chat {
+  width: 20px;
+  border-radius: 15%;
+  background-color: #7e98df;
+  color: white;
+  margin-left: 20px;
+}
+
+.blank_text_chat {
+  margin-left: 210px;
+  margin-top: 210px;
+}

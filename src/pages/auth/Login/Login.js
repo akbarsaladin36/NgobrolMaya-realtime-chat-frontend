@@ -13,7 +13,7 @@ function Login(props) {
   const handleLogin = (event) => {
     event.preventDefault();
     localStorage.setItem("token", username);
-    props.history.push("/chat");
+    props.history.push("/home");
   };
 
   const changeText = (event) => {
