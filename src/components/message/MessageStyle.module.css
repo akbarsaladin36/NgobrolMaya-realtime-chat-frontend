@@ -3,7 +3,45 @@
   border-radius: 15%;
 }
 
+.profile_chat_size {
+  width: 50px;
+  border-radius: 15%;
+}
+
 .user_text {
   font-size: 12px;
   margin-left: 20px !important;
+}
+
+.chat_cursor {
+  cursor: pointer;
+}
+
+.bubble_chat {
+  width: 250px;
+  background-color: #7e98df;
+  color: white;
+  font-size: 12px;
+  border-radius: 5%;
+  margin-left: 15px;
+}
+
+.bubble_chat_sender {
+  width: 250px;
+  background-color: gray;
+  color: black;
+  font-size: 12px;
+  border-radius: 5%;
+}
+
+.input_message_position {
+  position: relative !important;
+  top: 290px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.input_size {
+  width: 700px !important;
 }

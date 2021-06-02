@@ -1,25 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Container, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+// import { connect } from "react-redux";
+import { login } from "../../../redux/action/auth";
 import styles from "./Login.module.css";
 
 function Login(props) {
-  const [username, setUsername] = useState("");
-  const [form, setForm] = useState({
-    username: "",
-    password: "",
-  });
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [form, setForm] = useState({
+  //   email: "",
+  //   password: "",
+  // });
+
+  useEffect(() => {
+    if (auth.data.token) {
+      localStorage.setItem("token", auth.data.token);
+      props.history.push("/home");
+    }
+  }, [auth, props]);
 
   const handleLogin = (event) => {
     event.preventDefault();
-    localStorage.setItem("token", username);
-    props.history.push("/home");
+    dispatch(login({ userEmail: email, userPassword: password }));
   };
 
-  const changeText = (event) => {
-    const { name } = event.target;
-    setUsername(event.target.value);
-    setForm({ ...form, [name]: event.target.value });
+  // const changeText = (event) => {
+  //   const { name } = event.target;
+  //   setEmail(event.target.value);
+  //   setPassword(event.target.value);
+  //   setForm({ ...form, [name]: event.target.value });
+  // };
+
+  const changeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const changePassword = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -35,14 +56,20 @@ function Login(props) {
                 <Form.Control
                   type="email"
                   placeholder="Email"
-                  onChange={(event) => changeText(event)}
+                  value={email}
+                  onChange={(event) => changeEmail(event)}
                   required
                 />
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(event) => changePassword(event)}
+                />
               </Form.Group>
               <Link
                 to="/forgot-password"

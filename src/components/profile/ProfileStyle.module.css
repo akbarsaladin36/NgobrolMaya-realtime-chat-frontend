@@ -1,0 +1,8 @@
+.profile_picture_size {
+  width: 60px;
+  border-radius: 15%;
+}
+
+.text_name_position {
+  text-align: left !important;
+}

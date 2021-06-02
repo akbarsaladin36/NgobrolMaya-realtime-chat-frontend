@@ -1,5 +1,10 @@
 .list_icon {
   float: right !important;
+  margin-left: 50px !important;
+}
+
+.list_icon_dropdown {
+  margin-left: 50px !important;
 }
 
 .list_icon_2 {
@@ -23,6 +28,10 @@
   border-radius: 15%;
 }
 
+.chat_cursor {
+  cursor: pointer;
+}
+
 .chat_text {
   color: #7e98df;
 }
@@ -36,6 +45,10 @@
 }
 
 .blank_text_chat {
-  margin-left: 210px;
+  margin-left: 150px;
   margin-top: 210px;
+}
+
+.now_show_profile {
+  display: none;
 }

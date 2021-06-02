@@ -1,27 +1,47 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Container, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { register } from "../../../redux/action/auth";
 import styles from "./Register.module.css";
 
 function Register(props) {
+  const dispatch = useDispatch();
+  // const auth = useSelector((state) => state.auth);
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [password, setPassword] = useState("");
+  // const [form, setForm] = useState({
+  //   username: "",
+  //   email: "",
+  //   password: "",
+  // });
 
   const handleRegister = (event) => {
     event.preventDefault();
-    localStorage.setItem("token", username);
-    props.history.push("/register");
+    dispatch(
+      register({ userEmail: email, userName: username, userPassword: password })
+    );
+    window.location.href("/login");
   };
 
-  const changeText = (event) => {
-    const { name } = event.target;
-    setUsername(event.target.value);
-    setForm({ ...form, [name]: event.target.value });
+  const changeEmail = (event) => {
+    setEmail(event.target.value);
   };
+
+  const changeUsername = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const changePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  // const changeText = (event) => {
+  //   const { name } = event.target;
+  //   setUsername(event.target.value);
+  //   setForm({ ...form, [name]: event.target.value });
+  // };
 
   return (
     <div>
@@ -41,7 +61,8 @@ function Register(props) {
                 <Form.Control
                   type="email"
                   placeholder="Email"
-                  onChange={(event) => changeText(event)}
+                  value={email}
+                  onChange={(event) => changeEmail(event)}
                   required
                 />
               </Form.Group>
@@ -50,13 +71,19 @@ function Register(props) {
                 <Form.Control
                   type="text"
                   placeholder="Name"
-                  onChange={(event) => changeText(event)}
+                  value={username}
+                  onChange={(event) => changeUsername(event)}
                   required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(event) => changePassword(event)}
+                />
               </Form.Group>
               <Button
                 variant="primary"
