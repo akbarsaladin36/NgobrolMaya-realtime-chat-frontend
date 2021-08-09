@@ -1,39 +1,23 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { Button, Container, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
 import { login } from "../../../redux/action/auth";
+import { getUserProfileId } from "../../../redux/action/user";
+import { connect } from "react-redux";
 import styles from "./Login.module.css";
 
 function Login(props) {
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [form, setForm] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-
-  useEffect(() => {
-    if (auth.data.token) {
-      localStorage.setItem("token", auth.data.token);
-      props.history.push("/home");
-    }
-  }, [auth, props]);
 
   const handleLogin = (event) => {
     event.preventDefault();
-    dispatch(login({ userEmail: email, userPassword: password }));
+    props.login({ userEmail: email, userPassword: password }).then((res) => {
+      localStorage.setItem("token", res.value.data.data.token);
+      props.getUserProfileId(res.action.payload.data.data.user_id);
+      props.history.push("/home");
+    });
   };
-
-  // const changeText = (event) => {
-  //   const { name } = event.target;
-  //   setEmail(event.target.value);
-  //   setPassword(event.target.value);
-  //   setForm({ ...form, [name]: event.target.value });
-  // };
 
   const changeEmail = (event) => {
     setEmail(event.target.value);
@@ -98,4 +82,12 @@ function Login(props) {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+const mapDispatchToProps = {
+  login,
+  getUserProfileId,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

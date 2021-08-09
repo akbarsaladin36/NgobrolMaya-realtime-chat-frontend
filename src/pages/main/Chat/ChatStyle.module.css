@@ -1,3 +1,7 @@
+.logo_brand_color {
+  color: #7e98df !important;
+}
+
 .list_icon {
   float: right !important;
   margin-left: 50px !important;
@@ -47,8 +51,88 @@
 .blank_text_chat {
   margin-left: 150px;
   margin-top: 210px;
+  margin-bottom: 420px;
 }
 
 .now_show_profile {
+  display: none;
+}
+
+.profile_picture_size {
+  width: 60px;
+  border-radius: 15%;
+}
+
+.profile_chat_size {
+  width: 50px;
+  border-radius: 15%;
+}
+
+.user_text {
+  font-size: 12px;
+  margin-left: 20px !important;
+}
+
+.chat_cursor {
+  cursor: pointer;
+}
+
+.bubble_chat {
+  width: 350px;
+  background-color: #7e98df;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.bubble_chat_sender {
+  width: 350px;
+  background-color: gray;
+  color: black;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-left: 300px;
+  margin-top: 15px;
+}
+
+.input_message_position {
+  position: relative !important;
+  top: 290px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.input_size {
+  width: 700px !important;
+}
+
+.input_message_width {
+  margin-bottom: 45%;
+}
+
+.input_message_width_2 {
+  width: 90%;
+}
+
+.image_size {
+  width: 80px;
+  height: 80px;
+  margin-left: 120px;
+}
+
+.image_size_2 {
+  width: 80px;
+  height: 80px;
+  margin-left: 120px;
+}
+
+.word_position_1 {
+  float: right;
+}
+
+.image-upload > input {
   display: none;
 }

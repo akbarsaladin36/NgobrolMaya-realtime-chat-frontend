@@ -7,9 +7,21 @@ export const getAllContact = (userId) => {
   };
 };
 
-export const addFriendContact = (data) => {
+export const addFriendContact = (userId, friendId, data) => {
   return {
     type: "ADD_FRIEND_CONTACT",
-    payload: axiosApiIntances.post("contact", data),
+    payload: axiosApiIntances.post(
+      `contact/${userId}?friendId=${friendId}`,
+      data
+    ),
+  };
+};
+
+export const getOneContact = (userId, friendId) => {
+  return {
+    type: "GET_ONE_CONTACT",
+    payload: axiosApiIntances.get(
+      `contact/?userId=${userId}&friendId=${friendId}`
+    ),
   };
 };

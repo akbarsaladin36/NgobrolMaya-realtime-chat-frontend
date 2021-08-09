@@ -1,9 +1,9 @@
 import axiosApiIntances from "../../utils/axios";
 
-export const getAllChat = (roomId) => {
+export const getAllChat = (roomChat) => {
   return {
     type: "GET_ALL_CHAT",
-    payload: axiosApiIntances.get(`chat/${roomId}`),
+    payload: axiosApiIntances.get(`chat/${roomChat}`),
   };
 };
 

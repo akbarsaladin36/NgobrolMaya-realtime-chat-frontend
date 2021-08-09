@@ -22,7 +22,7 @@ function Register(props) {
     dispatch(
       register({ userEmail: email, userName: username, userPassword: password })
     );
-    window.location.href("/login");
+    props.history.push("/login");
   };
 
   const changeEmail = (event) => {

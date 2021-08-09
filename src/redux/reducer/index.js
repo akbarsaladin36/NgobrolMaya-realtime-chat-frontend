@@ -5,6 +5,7 @@ import user from "./user";
 import contact from "./contact";
 import roomChat from "./roomChat";
 import auth from "./auth";
+import chatMessage from "./chat";
 
 export default combineReducers({
   counter,
@@ -12,4 +13,5 @@ export default combineReducers({
   user,
   contact,
   roomChat,
+  chatMessage,
 });

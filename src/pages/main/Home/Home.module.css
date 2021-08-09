@@ -1,0 +1,20 @@
+body {
+  background-color: white;
+}
+
+.home_background {
+  background-color: white;
+}
+
+.home_big_brand_1 {
+  color: #7e98df;
+}
+
+.home_text_position {
+  text-align: justify;
+  line-height: 50px;
+}
+
+.home_screenshot_size {
+  width: 700px;
+}
