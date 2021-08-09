@@ -52,7 +52,8 @@ REACT_APP_BACKEND_IMAGE_URL = [YOUR_BACKEND_IMAGE_API_URL]
 - [React](https://reactjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
 - [Redux](https://github.com/reduxjs/react-redux)
-- [Socket.io] (https://github.com/socketio/socket.io)
+- [Socket.io](https://github.com/socketio/socket.io)
+
 ## License
 
 © [Muhammad Akbar Saladin Siregar](https://github.com/akbarsaladin36/)
