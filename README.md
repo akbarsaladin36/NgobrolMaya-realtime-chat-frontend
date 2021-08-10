@@ -1,6 +1,6 @@
 <h1 align='center'>React JS - NgobrolMaya Realtime Chat App</h1>
   <p align="center">
-    <a href="#link_deploy">View Demo</a>
+    <a href="https://ngobrolmaya-realtime-chat.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/akbarsaladin36/NgobrolMaya-realtime-chat-frontend/issues">Report Bug</a>
     ·
