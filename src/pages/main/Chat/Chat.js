@@ -444,14 +444,12 @@ function ChatHome(props) {
                     <Col sm={6}>
                       <p>{item.user_name}</p>
                       <p className={styles.chat_text}>
-                        {userOnline.includes(item.user_id)
-                          ? "Online"
-                          : "Offline"}
+                        {typing.isTyping ? "Typing..." : ""}
                       </p>
                     </Col>
                     <Col sm={3}>
                       <p>15:40</p>
-                      {notification ? (
+                      {notification.show ? (
                         <div className={styles.notification_bubble_chat}>
                           <p>new</p>
                         </div>
