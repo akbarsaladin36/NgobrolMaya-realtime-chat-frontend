@@ -39,18 +39,20 @@ function App() {
         <Router>
           <Switch>
             <PublicRoute
+              Route
               restricted={true}
               path="/login"
               exact
               component={Login}
             />
-            <PublicRoute path="/register" exact component={Register} />
+            <PublicRoute Route path="/register" exact component={Register} />
             <PublicRoute
+              Route
               path="/forgot-password"
               exact
               component={ForgotPassword}
             />
-            <PublicRoute path="/" exact component={Home} />
+            <PublicRoute Route path="/" exact component={Home} />
             <PrivateRoute
               socket={socket}
               path="/home"
