@@ -49,7 +49,7 @@
 }
 
 .blank_text_chat {
-  margin-left: 150px;
+  margin-left: 300px;
   margin-top: 210px;
   margin-bottom: 420px;
 }
@@ -73,6 +73,14 @@
   margin-left: 20px !important;
 }
 
+.user_text_position_1 {
+  margin-left: -15px;
+}
+
+.user_text_position_2 {
+  margin-left: 10px !important;
+}
+
 .chat_cursor {
   cursor: pointer;
 }
@@ -87,10 +95,31 @@
   margin-top: 15px;
 }
 
+.bubble_chat_1 {
+  width: 350px;
+  background-color: #7e98df;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-left: 335px;
+  margin-top: 15px;
+}
+
 .bubble_chat_sender {
   width: 350px;
   background-color: gray;
-  color: black;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-left: 650px;
+  margin-top: 15px;
+  float: right !important;
+}
+
+.bubble_chat_sender_1 {
+  width: 350px;
+  background-color: gray;
+  color: white;
   font-size: 18px;
   border-radius: 10px;
   margin-left: 300px;

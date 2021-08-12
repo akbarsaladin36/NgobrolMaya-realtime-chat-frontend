@@ -11,18 +11,43 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [form, setForm] = useState({
-  //   username: "",
-  //   email: "",
-  //   password: "",
-  // });
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleRegister = (event) => {
     event.preventDefault();
-    dispatch(
-      register({ userEmail: email, userName: username, userPassword: password })
-    );
-    props.history.push("/login");
+    if (!email && !username && !password) {
+      setErrorMsg("fill all form below to register!");
+      setSuccessMsg(false);
+    } else if (!email) {
+      setErrorMsg("fill your email now!");
+      setSuccessMsg(false);
+    } else if (!username) {
+      setErrorMsg("fill your username now!");
+      setSuccessMsg(false);
+    } else if (!password) {
+      setErrorMsg("fill your password now!");
+      setSuccessMsg(false);
+    } else {
+      dispatch(
+        register({
+          userEmail: email,
+          userName: username,
+          userPassword: password,
+        })
+      )
+        .then((res) => {
+          setSuccessMsg(res.action.payload.data.msg);
+          setErrorMsg(false);
+          setTimeout(() => {
+            props.history.push("/login");
+          }, 3000);
+        })
+        .catch((err) => {
+          setErrorMsg(err.response.data.msg);
+          setSuccessMsg(false);
+        });
+    }
   };
 
   const changeEmail = (event) => {
@@ -37,12 +62,6 @@ function Register(props) {
     setPassword(event.target.value);
   };
 
-  // const changeText = (event) => {
-  //   const { name } = event.target;
-  //   setUsername(event.target.value);
-  //   setForm({ ...form, [name]: event.target.value });
-  // };
-
   return (
     <div>
       <Container>
@@ -55,7 +74,7 @@ function Register(props) {
               Register
             </h3>
             <p className="mt-3">Let's create your account!</p>
-            <Form onSubmit={handleRegister} className="mt-4">
+            <Form onSubmit={handleRegister} className="mt-4" noValidate>
               <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -85,6 +104,16 @@ function Register(props) {
                   onChange={(event) => changePassword(event)}
                 />
               </Form.Group>
+              {successMsg && (
+                <div className="alert alert-success" role="alert">
+                  {successMsg}
+                </div>
+              )}
+              {errorMsg && (
+                <div className="alert alert-danger" role="alert">
+                  {errorMsg}
+                </div>
+              )}
               <Button
                 variant="primary"
                 className={`${styles.login_button} mt-4`}

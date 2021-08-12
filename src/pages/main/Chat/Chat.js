@@ -150,7 +150,11 @@ function ChatHome(props) {
         room: connectedRooms.room,
         isTyping: false,
       });
-      props.sendChat(setData);
+      props.sendChat(setData).then((res) => {
+        props.getAllChat(connectedRooms.room).then((res) => {
+          setMessages(res.action.payload.data.data);
+        });
+      });
     }
     setMessage("");
   };
@@ -229,7 +233,7 @@ function ChatHome(props) {
     props.history.push("/login");
   };
 
-  // console.log(props.roomChat);
+  console.log(props.oneRoomChat);
 
   return (
     <div>
@@ -463,7 +467,7 @@ function ChatHome(props) {
             </Col>
           )}
 
-          <Col lg={6} className="bg-light">
+          <Col lg={showProfile ? 6 : 9} className="bg-light">
             {showMessage ? (
               <div>
                 <Row>
@@ -476,7 +480,14 @@ function ChatHome(props) {
                           className={styles.profile_picture_size}
                         />
                       </Col>
-                      <Col xs={3} className="mt-1">
+                      <Col
+                        xs={3}
+                        className={
+                          showProfile
+                            ? `${styles.user_text_position_2} mt-1`
+                            : `${styles.user_text_position_1} mt-1`
+                        }
+                      >
                         <p
                           className={styles.user_text}
                           onClick={showUserProfile}
@@ -484,7 +495,7 @@ function ChatHome(props) {
                           {props.oneRoomChat[0].user_name}
                         </p>
                         <p className={styles.user_text}>
-                          {userOnline.includes(props.oneRoomChat[0].user_id)
+                          {userOnline.includes(props.oneRoomChat[0].friend_id)
                             ? "Online"
                             : "Offline"}
                         </p>
@@ -493,31 +504,41 @@ function ChatHome(props) {
                   </Col>
                 </Row>
 
-                <Row className="mt-5">
-                  {messages.map((item, index) => (
-                    <Col
-                      sm={6}
-                      key={index}
-                      className={
-                        item.sender_id === props.auth.user_id ||
-                        item.senderId === props.auth.user_id
-                          ? styles.bubble_chat_sender
-                          : styles.bubble_chat
-                      }
-                    >
-                      <div
+                {showProfile ? (
+                  <Row className="mt-5 float-end">
+                    {messages.map((item, index) => (
+                      <Col
+                        sm={6}
+                        key={index}
                         className={
                           item.sender_id === props.auth.user_id ||
                           item.senderId === props.auth.user_id
-                            ? "text-light"
-                            : "text-warning"
+                            ? styles.bubble_chat_sender
+                            : styles.bubble_chat_1
                         }
                       >
                         <p>{item.message}</p>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
+                      </Col>
+                    ))}
+                  </Row>
+                ) : (
+                  <Row className="mt-5">
+                    {messages.map((item, index) => (
+                      <Col
+                        sm={6}
+                        key={index}
+                        className={
+                          item.sender_id === props.auth.user_id ||
+                          item.senderId === props.auth.user_id
+                            ? styles.bubble_chat_sender
+                            : styles.bubble_chat
+                        }
+                      >
+                        <p>{item.message}</p>
+                      </Col>
+                    ))}
+                  </Row>
+                )}
 
                 <Row className={styles.input_message_width}>
                   <Form className={styles.input_message_position}>

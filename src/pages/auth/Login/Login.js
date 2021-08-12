@@ -9,14 +9,37 @@ import styles from "./Login.module.css";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const handleLogin = (event) => {
     event.preventDefault();
-    props.login({ userEmail: email, userPassword: password }).then((res) => {
-      localStorage.setItem("token", res.value.data.data.token);
-      props.getUserProfileId(res.action.payload.data.data.user_id);
-      props.history.push("/home");
-    });
+    if (!email && !password) {
+      setErrorMsg("Fill all form below to login!");
+      setSuccessMsg(false);
+    } else if (!email) {
+      setErrorMsg("Fill the email below!");
+      setSuccessMsg(false);
+    } else if (!password) {
+      setErrorMsg("Fill the password below!");
+      setSuccessMsg(false);
+    } else {
+      props
+        .login({ userEmail: email, userPassword: password })
+        .then((res) => {
+          setSuccessMsg(res.action.payload.data.msg);
+          setErrorMsg(false);
+          localStorage.setItem("token", res.value.data.data.token);
+          props.getUserProfileId(res.action.payload.data.data.user_id);
+          setTimeout(() => {
+            props.history.push("/home");
+          }, 3000);
+        })
+        .catch((err) => {
+          setErrorMsg(err.response.data.msg);
+          setSuccessMsg(false);
+        });
+    }
   };
 
   const changeEmail = (event) => {
@@ -34,7 +57,7 @@ function Login(props) {
           <Card.Body>
             <h3 className={`${styles.login_text} text-center mt-4`}>Login</h3>
             <p className="mt-3">Hi, Welcome back</p>
-            <Form onSubmit={handleLogin} className="mt-4">
+            <Form onSubmit={handleLogin} className="mt-4" noValidate>
               <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -61,6 +84,16 @@ function Login(props) {
               >
                 Forgot password?
               </Link>
+              {successMsg && (
+                <div className="alert alert-success mt-5" role="alert">
+                  {successMsg}
+                </div>
+              )}
+              {errorMsg && (
+                <div className="alert alert-danger mt-5" role="alert">
+                  {errorMsg}
+                </div>
+              )}
               <Button
                 variant="primary"
                 className={`${styles.login_button} mt-4`}

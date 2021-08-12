@@ -18,7 +18,7 @@ const chatMessage = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload.data.data[0],
+        data: action.payload.data.data,
         msg: action.payload.data.msg,
       };
     case "GET_ALL_CHAT_REJECTED":
