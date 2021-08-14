@@ -55,6 +55,9 @@ function Login(props) {
       <Container>
         <Card className={`${styles.card_size} mt-5 mx-auto`}>
           <Card.Body>
+            <Link to="/" className={styles.back_button}>
+              <h5>{"<"}</h5>
+            </Link>
             <h3 className={`${styles.login_text} text-center mt-4`}>Login</h3>
             <p className="mt-3">Hi, Welcome back</p>
             <Form onSubmit={handleLogin} className="mt-4" noValidate>

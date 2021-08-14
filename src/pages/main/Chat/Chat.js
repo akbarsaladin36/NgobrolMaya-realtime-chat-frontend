@@ -12,7 +12,8 @@ import {
 import { VscListSelection } from "react-icons/vsc";
 import { VscAdd } from "react-icons/vsc";
 import { VscSearch } from "react-icons/vsc";
-// import { Link } from "react-router-dom";
+import { BsTrash, BsPencilSquare, BsLock } from "react-icons/bs";
+import { BiLogOut } from "react-icons/bi";
 import styles from "./ChatStyle.module.css";
 import ProfilePicture from "../../../assets/img/default-profile-icon.jpg";
 import Profile from "../../../components/profile/Profile";
@@ -35,10 +36,7 @@ require("dotenv").config();
 
 function ChatHome(props) {
   const [showMessage, setShowMessage] = useState(false);
-  const [showImage, setShowImage] = useState(
-    `http://localhost:3003/backend3/api/${props.auth.user_image}`
-  );
-  const [showImage2, setShowImage2] = useState("/default-profile-picture.jpg");
+  const [showImage, setShowImage] = useState(ProfilePicture);
   const [showProfile, setShowProfile] = useState(false);
   const [showMyProfile, setShowMyProfile] = useState(false);
   const [notification, setNotification] = useState({ show: false });
@@ -92,10 +90,8 @@ function ChatHome(props) {
   const showChatMessage = ({ roomChat, userId }) => {
     props.getOneRoomChat(roomChat, userId);
     props.getAllChat(roomChat).then((res) => {
-      // console.log(res);
       setMessages(res.action.payload.data.data);
       setShowMessage(true);
-      // props.getAllContact(friendId);
     });
     props.socket.emit("join-room", {
       room: roomChat,
@@ -145,10 +141,9 @@ function ChatHome(props) {
       };
       props.socket.emit("send-message", setData);
       props.socket.emit("notif-message", setData);
-      // console.log(setData);
       props.socket.emit("typing-message", {
         room: connectedRooms.room,
-        isTyping: false,
+        typing: false,
       });
       props.sendChat(setData).then((res) => {
         props.getAllChat(connectedRooms.room).then((res) => {
@@ -204,7 +199,6 @@ function ChatHome(props) {
     props
       .updateUserImageProfileId(props.auth.user_id, formData)
       .then((res) => {
-        console.log(res);
         setShowImage(res.action.payload.data.data.user_image);
         props.getUserProfileId(props.auth.user_id);
         props.history.push("/home");
@@ -219,7 +213,7 @@ function ChatHome(props) {
     props
       .deleteUserImageProfileId(props.auth.user_id)
       .then((res) => {
-        setShowImage2("default-profile-picture.jpg");
+        setShowImage(ProfilePicture);
         props.getUserProfileId(props.auth.user_id);
         props.history.push("/home");
       })
@@ -230,10 +224,9 @@ function ChatHome(props) {
 
   const handleLogout = () => {
     localStorage.clear();
+    props.socket.emit("disconnect-server", { userId: props.auth.user_id });
     props.history.push("/login");
   };
-
-  console.log(props.oneRoomChat);
 
   return (
     <div>
@@ -263,7 +256,7 @@ function ChatHome(props) {
                         />
                       ) : (
                         <img
-                          src={showImage2}
+                          src={showImage}
                           className={`${styles.image_size_2} rounded-circle`}
                           alt="own profile user"
                         />
@@ -286,7 +279,9 @@ function ChatHome(props) {
                     onClick={showEditOwnProfile}
                     style={{ cursor: "pointer" }}
                   >
-                    Update
+                    <i className="text-primary">
+                      <BsPencilSquare />
+                    </i>
                   </p>
                 </Col>
                 <Col>
@@ -294,7 +289,9 @@ function ChatHome(props) {
                     style={{ cursor: "pointer" }}
                     onClick={handleDeleteImageProfile}
                   >
-                    Delete
+                    <i className="text-danger">
+                      <BsTrash />
+                    </i>
                   </p>
                 </Col>
               </Row>
@@ -364,9 +361,17 @@ function ChatHome(props) {
               </Row>
               <Row>
                 <b>Settings</b>
-                <p>Change Password</p>
+                <p>
+                  <i>
+                    <BsLock />
+                  </i>
+                  {"  "}Change Password
+                </p>
                 <p onClick={handleLogout} style={{ cursor: "pointer" }}>
-                  Logout
+                  <i>
+                    <BiLogOut />
+                  </i>
+                  {"  "}Logout
                 </p>
               </Row>
             </Col>
@@ -440,20 +445,24 @@ function ChatHome(props) {
                   >
                     <Col sm={3}>
                       <img
-                        src={ProfilePicture}
+                        src={
+                          item.user_image.length > 0
+                            ? `${process.env.REACT_APP_BACKEND_IMAGE_URL}${item.user_image}`
+                            : ProfilePicture
+                        }
                         alt="profile user"
-                        className={styles.profile_picture_size}
+                        className={styles.profile_picture_size_1}
                       />
                     </Col>
                     <Col sm={6}>
                       <p>{item.user_name}</p>
                       <p className={styles.chat_text}>
-                        {typing.isTyping ? "Typing..." : ""}
+                        {typing.isTyping && <p>Typing...</p>}
                       </p>
                     </Col>
                     <Col sm={3}>
                       <p>15:40</p>
-                      {notification.show ? (
+                      {notification.messageBody ? (
                         <div className={styles.notification_bubble_chat}>
                           <p>new</p>
                         </div>
@@ -475,9 +484,13 @@ function ChatHome(props) {
                     <Row className={`${styles.chat_cursor} mt-3`}>
                       <Col xs={1}>
                         <img
-                          src={ProfilePicture}
+                          src={
+                            props.oneRoomChat[0].user_image.length > 0
+                              ? `${process.env.REACT_APP_BACKEND_IMAGE_URL}${props.oneRoomChat[0].user_image}`
+                              : ProfilePicture
+                          }
                           alt="profile user"
-                          className={styles.profile_picture_size}
+                          className={styles.profile_picture_size_2}
                         />
                       </Col>
                       <Col
@@ -531,7 +544,7 @@ function ChatHome(props) {
                           item.sender_id === props.auth.user_id ||
                           item.senderId === props.auth.user_id
                             ? styles.bubble_chat_sender
-                            : styles.bubble_chat
+                            : styles.bubble_chat_2
                         }
                       >
                         <p>{item.message}</p>

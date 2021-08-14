@@ -3,6 +3,15 @@
   border-color: white;
 }
 
+.back_button {
+  text-decoration: none;
+  color: #7e98df;
+}
+
+.back_button:hover {
+  color: #7e98df;
+}
+
 .login_text {
   color: #7e98df;
 }

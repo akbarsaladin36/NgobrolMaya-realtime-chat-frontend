@@ -27,8 +27,9 @@
   border-color: lightgray;
 }
 
-.profile_picture_size {
+.profile_picture_size_1 {
   width: 60px;
+  height: 70px;
   border-radius: 15%;
 }
 
@@ -58,8 +59,9 @@
   display: none;
 }
 
-.profile_picture_size {
+.profile_picture_size_2 {
   width: 60px;
+  height: 70px;
   border-radius: 15%;
 }
 
@@ -105,6 +107,17 @@
   margin-top: 15px;
 }
 
+.bubble_chat_2 {
+  width: 350px;
+  background-color: #7e98df;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-left: 0px;
+  margin-top: 15px;
+  margin-right: 200px;
+}
+
 .bubble_chat_sender {
   width: 350px;
   background-color: gray;
@@ -138,6 +151,10 @@
   width: 700px !important;
 }
 
+.input_size_2 {
+  width: 1100px !important;
+}
+
 .input_message_width {
   margin-bottom: 45%;
 }
@@ -155,11 +172,11 @@
 .image_size_2 {
   width: 80px;
   height: 80px;
-  margin-left: 120px;
+  margin-left: 115px;
 }
 
 .word_position_1 {
-  float: right;
+  margin-left: 125px;
 }
 
 .image-upload > input {
